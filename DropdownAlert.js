@@ -67,6 +67,7 @@ export default class DropdownAlert extends Component {
   };
   static defaultProps = {
     onClose: null,
+    testId: null,
     onCancel: null,
     closeInterval: 4000,
     startDelta: -100,
@@ -196,7 +197,7 @@ export default class DropdownAlert extends Component {
       },
     });
   };
-  alertWithType = (type, title, message) => {
+  alertWithType = (type, title, message, testId) => {
     if (validateType(type) == false) {
       return;
     }
@@ -208,10 +209,16 @@ export default class DropdownAlert extends Component {
       message = message.toString();
       console.warn('DropdownAlert: Message is not a string.');
     }
+    if (typeof testId !== 'string') {
+      testId = testId.toString();
+      console.warn('DropdownAlert: Message is not a string.');
+    }
+
     if (this.props.replaceEnabled == false) {
       this.setState({
         type: type,
         message: message,
+        testId:testId,
         title: title,
         isOpen: true,
         topValue: 0,
@@ -243,6 +250,7 @@ export default class DropdownAlert extends Component {
             self.setState({
               type: type,
               message: message,
+              testId:testId,
               title: title,
               isOpen: true,
               topValue: 0,
@@ -499,7 +507,11 @@ export default class DropdownAlert extends Component {
             <View style={style}>
               <SafeAreaView style={StyleSheet.flatten(this.props.safeAreaStyle)}>
                 {this.renderImage(source)}
-                <View style={StyleSheet.flatten(this.props.defaultTextContainer)}>
+                <View
+                  accessible={true}
+                  accessibilityLabel={this.state.testId}
+                  testID={this.state.testId}
+                  style={StyleSheet.flatten(this.props.defaultTextContainer)}>
                   {this.renderTitle()}
                   {this.renderMessage()}
                 </View>
