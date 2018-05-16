@@ -9,7 +9,7 @@
     "prop-types": "^15.5.10",
     "react": "^16.0.0",
     "react-native": "^0.50.0",
-    "react-native-dropdownalert": "^3.2.0"
+    "react-native-dropdownalert": "https://github.com/anantha322/react-native-dropdownalert.git"
   },
   "devDependencies": {
     "eslint": "^4.11.0",

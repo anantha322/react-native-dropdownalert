@@ -15,7 +15,7 @@ export default class main extends Component {
       default:
         const random = Math.floor(Math.random() * 1000 + 1);
         const title = item.type + ' #' + random;
-        this.dropdown.alertWithType(item.type, title, item.message);
+        this.dropdown.alertWithType(item.type, title, item.message, 'testing');
     }
   }
   closeAction() {
