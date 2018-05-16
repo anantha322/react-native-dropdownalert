@@ -108,6 +108,7 @@ export default class DropdownAlert extends Component {
       duration: 450,
       type: '',
       message: '',
+      testId: '',
       title: '',
       isOpen: false,
       startDelta: props.startDelta,
@@ -149,7 +150,7 @@ export default class DropdownAlert extends Component {
     }
     this.alertWithType('custom', title, message)
   }
-  alertWithType(type, title, message) {
+  alertWithType(type, title, message, testId) {
     if (this.validateType(type) == false) {
       return
     }
@@ -161,10 +162,16 @@ export default class DropdownAlert extends Component {
       message = message.toString()
       console.warn('DropdownAlert: Message is not a string.')
     }
+    if (typeof testId !== 'string') {
+      testId = testId.toString()
+      console.warn('DropdownAlert: Test Id is not a string.')
+    }
+
     if (this.props.replaceEnabled == false) {
       this.setState({
         type: type,
         message: message,
+        testId: testId,
         title: title,
         isOpen: true,
         topValue: 0
@@ -192,6 +199,7 @@ export default class DropdownAlert extends Component {
           self.setState({
             type: type,
             message: message,
+            testId: testId,
             title: title,
             isOpen: true,
             topValue: 0
@@ -229,6 +237,7 @@ export default class DropdownAlert extends Component {
               type: this.state.type,
               title: this.state.title,
               message: this.state.message,
+              testId: this.state.testId,
               action: action // !!! How the alert was dismissed: automatic, programmatic, tap, pan or cancel
             }
             onDismiss(data)
@@ -425,7 +434,11 @@ export default class DropdownAlert extends Component {
                 onLayout={(event) => this.onLayoutEvent(event)}>
               <View style={style}>
                 {this.renderImage(source, StyleSheet.flatten(this.props.imageStyle))}
-                <View style={styles.textContainer}>
+                <View
+                  accessible={true}
+                  accessibilityLabel={this.state.testId}
+                  testID={this.state.testId}
+                  style={styles.textContainer}>
                   {this.renderText(this.state.title, StyleSheet.flatten(this.props.titleStyle), this.props.titleNumOfLines)}
                   {this.renderText(this.state.message, StyleSheet.flatten(this.props.messageStyle), this.props.messageNumOfLines)}
                 </View>
